@@ -148,3 +148,44 @@ print(fArea from 0 to 2 {sp.integrate(f21, (x, 0, 2))})
 print(n--- Question 22 Improper Integral ---)
 f22 = 1  x2
 print(fIntegral from 1 to infinity {sp.integrate(f22, (x, 1, sp.oo))})
+
+print("\n--- PART 2: Linear Regression & Gradient Descent ---")
+
+
+hours = np.array([1, 2, 3, 4, 5, 6])
+marks = np.array([40, 50, 55, 65, 70, 80])
+
+
+def gradient_descent(x, y, m, b, learning_rate, epochs):
+    n = len(x)
+    for i in range(epochs):
+        y_pred = m * x + b
+
+        dm = (-2/n) * sum(x * (y - y_pred))
+        db = (-2/n) * sum(y - y_pred)
+        
+        # Update weights
+        m = m - learning_rate * dm
+        b = b - learning_rate * db
+    return m, b
+
+
+m_final, b_final = gradient_descent(hours, marks, m=0, b=0, learning_rate=0.01, epochs=1000)
+
+print(f"Optimal m: {m_final:.2f}")
+print(f"Optimal b: {b_final:.2f}")
+
+
+prediction = m_final * 7 + b_final
+print(f"Prediction for 7 hours: {prediction:.2f}")
+
+
+plt.figure(figsize=(8, 5))
+plt.scatter(hours, marks, color='blue', label='Data Points')
+plt.plot(hours, m_final * hours + b_final, color='red', label='Regression Line')
+plt.title("Linear Regression via Gradient Descent")
+plt.xlabel("Hours Studied")
+plt.ylabel("Marks")
+plt.legend()
+plt.grid(True)
+plt.show()
